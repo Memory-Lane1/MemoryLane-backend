@@ -1,7 +1,7 @@
 import pymongo
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from utils.config import db_url
+# from utils.config import db_url
 
 class User:
         def __init__(self,email, password, name, age, country, PhoneNo):
@@ -15,8 +15,8 @@ class User:
         @classmethod
         def find_by_email(cls, email):
                 #method to return a User object on None querying from database
-                client = MongoClient(db_url)
-                db = client['test-user-db-compra-venta']
+                client = MongoClient('localhost',27017)
+                db = client['test-user-db-memory-lane']
                 collection = db['test-user-collection']
 
                 result = collection.find_one({'email': email})
@@ -30,7 +30,7 @@ class User:
         def insert(self):
                 print('Hello World')
                 client = MongoClient(db_url)
-                db = client['test-user-db-compra-venta']
+                db = client['test-user-db-memory-lane']
                 collection = db['test-user-collection']
 
                 post = {
@@ -55,7 +55,7 @@ class User:
         def update_password(self, new_password, _id):
 
                 client = MongoClient(db_url)
-                db = client['test-user-db-compra-venta']
+                db = client['test-user-db-memory-lane']
                 collection = db['test-user-collection']
 
                 myquery = {"email": self.email}
