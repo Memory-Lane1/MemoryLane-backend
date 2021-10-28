@@ -6,8 +6,11 @@ from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from resources.User import RegisterUser, UserLogin, RefreshLogin, UpdatePassword, ForgotPassword, Profile , UserLogout
-# import datetime
+import urllib.request
+import time
+from utils import blocklist
 from datetime import timedelta
+
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "somesecretcode"
 
