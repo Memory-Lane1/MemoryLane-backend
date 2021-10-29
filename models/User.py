@@ -54,14 +54,15 @@ class User:
 
         def update_password(self, new_password, _id):
 
+                print('Hello')
                 client = MongoClient('localhost',27017)
                 db = client['test-user-db-memory-lane']
                 collection = db['test-user-collection']
-
+                print('Hello1')
                 myquery = {"email": self.email}
 
                 new_values = {"$set": {"password": new_password}}
-                try: 
+                try:
                         collection.update_one(myquery, new_values)       
                         client.close()
                         return True
