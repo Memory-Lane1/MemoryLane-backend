@@ -144,9 +144,9 @@ class UpdatePassword(Resource):
             if done:
                 return {"message": "Password changed successfully."}, 200
             else:
-                return {"error": "Some error occured"}, 500
+                return {"error": "Some error occured1"}, 500
         except:
-            return {"error": "Some error occured"}, 500
+            return {"error": "Some error occured2"}, 500
 
 
 class ForgotPassword(Resource):
