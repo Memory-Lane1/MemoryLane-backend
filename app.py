@@ -14,21 +14,21 @@ from datetime import timedelta
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "somesecretcode"
 
-ACCESS_EXPIRES= timedelta(hours=1)
+ACCESS_EXPIRES= timedelta(hours=5)
 
 app.config["JWT_ACCESS_TOKEN_EXPIRES"]=ACCESS_EXPIRES
-app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(minutes=1)
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(hours=1)
 app.config['JWT_BLACKLIST_ENABLED'] = True
 jwt = JWTManager(app)
 
 CORS(app)
 api = Api(app)
 
-@jwt.token_in_blocklist_loader
-def check_if_token_is_revoked(jwt_header,jwt_payload):
-    jti = jwt_payload["jti"]
-    token_in_redis = blocklist.jwt_redis_blocklist.get(jti)
-    return token_in_redis is not None
+# @jwt.token_in_blocklist_loader
+# def check_if_token_is_revoked(jwt_header,jwt_payload):
+#     jti = jwt_payload["jti"]
+#     token_in_redis = blocklist.jwt_redis_blocklist.get(jti)
+#     return token_in_redis is not None
 
 
 api.add_resource(RegisterUser, '/register')
