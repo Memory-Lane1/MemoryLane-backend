@@ -29,7 +29,7 @@ class User:
         
         def insert(self):
                 print('Hello World')
-                client = MongoClient(db_url)
+                client = MongoClient('localhost',27017)
                 db = client['test-user-db-memory-lane']
                 collection = db['test-user-collection']
 
@@ -54,7 +54,7 @@ class User:
 
         def update_password(self, new_password, _id):
 
-                client = MongoClient(db_url)
+                client = MongoClient('localhost',27017)
                 db = client['test-user-db-memory-lane']
                 collection = db['test-user-collection']
 
