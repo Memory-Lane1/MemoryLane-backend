@@ -1,2 +1,7 @@
-FLASK-JWT
-FLASK-RESTful
+pymongo==3.11.3
+redis==3.5.3
+Flask==1.1.1
+Flask-RESTful==0.3.8
+Flask-JWT-Extended==4.0.2
+Flask-Cors
+cryptography
