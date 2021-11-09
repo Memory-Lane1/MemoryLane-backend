@@ -6,6 +6,7 @@ from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from resources.User import RegisterUser, UserLogin, RefreshLogin, UpdatePassword, ForgotPassword, Profile , UserLogout
+from models.User import User
 # from resources.UploadImage import UploadImage
 import urllib.request
 import time
@@ -17,20 +18,21 @@ import glob
 import re
 from werkzeug.utils import secure_filename
 import werkzeug
-import tensorflow as tf
-import tensorflow.keras as keras
+# import tensorflow as tf
+# import tensorflow.keras as keras
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 from PIL import Image
 import os
+from models.Image import Image
 
 
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "somesecretcode"
 
 ACCESS_EXPIRES= timedelta(hours=5)
-MODEL_PATH='/home/jaskaran/Documents/MemoryLaneLocal/Deep_Learning_Model/gen_weight_final.h5'
+# MODEL_PATH='/home/jaskaran/Documents/MemoryLaneLocal/Deep_Learning_Model/gen_weight_final.h5'
 UPLOAD_FOLDER = '/home/jaskaran/Documents/MemoryLaneLocal/img'
 
 
@@ -61,12 +63,32 @@ api = Api(app)
 
 
 class UploadImage(Resource):
-   def post(self):
-    f = request.files['file']
-    # f.save(f.filename)
-    f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
-    return {"message":"Successful upload"},200
+    # parser = reqparse.RequestParser()
+    # parser.add_argument('_id',
+    #                     type = str,
+    #                     required = True
+    #                     )
 
+    # @jwt_required()
+    def post(self):
+        # data = self.parser.parse_args()
+        # user, _id = User.find_by_id(data['_id'])
+        # print(_id)
+        f = request.files['file']
+    # f.save(f.filename)
+        # st=str(_id)
+        f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
+        # if _ == None:
+        return {"message":"Successful upload"},200
+        # img = Image(_id,'jaskaran')
+        # if img.insert():
+        #     img_id=Image.find_by_path('jaskaran')
+        #     return {"message": "Successful upload",
+        #         "_id":_id,
+        #         "img_id":img_id}, 200
+        # else:
+        #         return {"message": "an error occurred"}, 500
+        
   
 
 class Predict(Resource):
@@ -88,10 +110,11 @@ api.add_resource(UpdatePassword, '/password/change')
 api.add_resource(ForgotPassword,'/password/get_new')
 api.add_resource(UserLogout,'/logout')
 api.add_resource(UploadImage,'/uploader')
-api.add_resource(Predict,'/predict')
+# api.add_resource(Predict,'/predict')
 
 
 if __name__ == '__main__':
     
-    model=keras.models.load_model(MODEL_PATH)
+    # with tf.device('/CPU:0'):
+      # model=keras.models.load_weights(MODEL_PATH)
     app.run(debug = False)
