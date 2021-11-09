@@ -10,7 +10,7 @@ from models.User import User
 # from resources.UploadImage import UploadImage
 import urllib.request
 import time
-from utils import blocklist
+#from utils import blocklist
 from datetime import timedelta
 import sys
 import os
