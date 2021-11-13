@@ -18,14 +18,15 @@ import glob
 import re
 from werkzeug.utils import secure_filename
 import werkzeug
-# import tensorflow as tf
-# import tensorflow.keras as keras
+import tensorflow as tf
+import tensorflow.keras as keras
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 from PIL import Image
 import os
 from models.Image import Image
+from models.model import predict
 
 
 app = Flask(__name__)
@@ -63,41 +64,84 @@ api = Api(app)
 
 
 class UploadImage(Resource):
-    # parser = reqparse.RequestParser()
-    # parser.add_argument('_id',
-    #                     type = str,
-    #                     required = True
-    #                     )
+    parser = reqparse.RequestParser()
+    parser.add_argument('_id',
+                        type = str,
+                        required = True
+                        )
+    print('qwer')
 
-    # @jwt_required()
+    @jwt_required()
     def post(self):
-        # data = self.parser.parse_args()
-        # user, _id = User.find_by_id(data['_id'])
-        # print(_id)
+        # print('abcd')
+        data = self.parser.parse_args()
+        user, user_id = User.find_by_id(data['_id'])
+        # print(user_id)
         f = request.files['file']
+        # print('1234')
     # f.save(f.filename)
         # st=str(_id)
-        f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
+        path='/home/jaskaran/Documents/MemoryLaneLocal/img'
+        print('')
+        # print('5678')
+        # f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
+        f.save(os.path.join(path, f.filename))
+        # print('91011')
+        image_path = path + '/'+ str(f.filename)
+        # print('121314')
+        print(image_path)
         # if _ == None:
-        return {"message":"Successful upload"},200
-        # img = Image(_id,'jaskaran')
-        # if img.insert():
-        #     img_id=Image.find_by_path('jaskaran')
-        #     return {"message": "Successful upload",
-        #         "_id":_id,
-        #         "img_id":img_id}, 200
-        # else:
-        #         return {"message": "an error occurred"}, 500
+        # return {"message":"Successful upload"},200
+        img = Image(user_id,image_path)
+        # print('151617')
+        if img.insert():
+            # print('181920')
+            image_id=Image.find_by_path(image_path)
+            # print('212223')
+            print(user_id)
+            print(' ')
+            print(image_id)
+            print(' ')
+            return {"message": "Successful upload",
+                "user_id":user_id,
+                "image_id":image_id}, 200
+        else:
+                return {"message": "an error occurred"}, 500
         
   
 
 class Predict(Resource):
-    def post(self):
 
-        img_name=[i for i in os.listdir('/home/jaskaran/Documents/MemoryLaneLocal/img')]
-        target_path=['/home/jaskaran/Documents/MemoryLaneLocal/img/'+i for i in img_name]
-        img=Image.open(target_path)
-        img=np.asarray(img)
+    parser = reqparse.RequestParser()
+    parser.add_argument('image_id',
+                        type = str,
+                        required = True
+                        )
+    parser.add_argument('user_id',
+                        type = str,
+                        required = True
+                        )
+
+    def post(self):
+        data = self.parser.parse_args()
+        image_id = data['image_id']
+        user_id = data['user_id']   
+
+        image = Image.find_by_id(image_id)
+
+        if image is None:
+            return {'message':'bad request'}, 400
+        else:
+            predicted_path = predict(image.path_to_img)
+            predicted_img = Image(user_id, image.path_to_img)
+            predicted_img.insert()
+            return {
+                'message':'successful',
+                'path':predicted_path
+            }, 200
+
+
+
         
 
 
@@ -110,7 +154,7 @@ api.add_resource(UpdatePassword, '/password/change')
 api.add_resource(ForgotPassword,'/password/get_new')
 api.add_resource(UserLogout,'/logout')
 api.add_resource(UploadImage,'/uploader')
-# api.add_resource(Predict,'/predict')
+api.add_resource(Predict,'/predict')
 
 
 if __name__ == '__main__':
