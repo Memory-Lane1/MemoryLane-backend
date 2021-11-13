@@ -17,7 +17,7 @@ class Image:
 
 
 
-                result = collection.find_one({'_id': _id})
+                result = collection.find_one({'_id': ObjectId(_id)})
 
                 client.close()
                 if result:
@@ -39,7 +39,7 @@ class Image:
 
                 client.close()
                 if result:
-                        return result['_id']
+                        return str(result['_id'])
                 else:
                         return None
 
