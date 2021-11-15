@@ -69,7 +69,7 @@ def predict(path_to_img):
       # # gen_img=gen_img.astype(np.uint8)
       # im = Image.fromarray(gen_img)
       # im.save(new_path)
-      # return new_path
+      return new_path
     else:
       return None
   else:
@@ -77,8 +77,8 @@ def predict(path_to_img):
 
 
 # path_to_img=input()
-path_to_img=str(r'/home/jaskaran/Documents/MemoryLaneLocal/img/abc.jpg')
-predict(path_to_img)
+#path_to_img=str(r'/home/jaskaran/Documents/MemoryLaneLocal/img/abc.jpg')
+#predict(path_to_img)
 
 # def main():
 #     if len(sys.argv)==1:
