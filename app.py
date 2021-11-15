@@ -34,6 +34,8 @@ app.config["JWT_SECRET_KEY"] = "somesecretcode"
 
 ACCESS_EXPIRES= timedelta(hours=5)
 # MODEL_PATH='/home/jaskaran/Documents/MemoryLaneLocal/Deep_Learning_Model/gen_weight_final.h5'
+
+# change path
 UPLOAD_FOLDER = '/home/jaskaran/Documents/MemoryLaneLocal/img'
 
 
@@ -81,7 +83,10 @@ class UploadImage(Resource):
         # print('1234')
     # f.save(f.filename)
         # st=str(_id)
+
+        #change path
         path='/home/jaskaran/Documents/MemoryLaneLocal/img'
+        
         print('')
         # print('5678')
         # f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
