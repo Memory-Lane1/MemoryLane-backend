@@ -12,7 +12,8 @@ from flask_jwt_extended import get_jwt
 from flask_jwt_extended import JWTManager
 from utils import blocklist
 from datetime import timedelta
-
+import os
+ 
 ACCESS_EXPIRES = timedelta(hours=1)
 
 class RegisterUser(Resource):
@@ -58,7 +59,7 @@ class RegisterUser(Resource):
         if _user == None:
             user = User(email,password, name, age, country, balance)
             if user.insert():
-                return {"message": "registered successfully"}, 200
+                return {"message": "registered successfully",}, 200
             else:
                 return {"message": "an error occurred"}, 500
         else:
@@ -92,6 +93,7 @@ class UserLogin(Resource):
                 access_token = create_access_token(identity = result.email,fresh = True)
                 refresh_token = create_refresh_token(result.email)
                 return {
+                    "_id":_id,
                     "access_token": access_token,
                     "refresh_token": refresh_token
                 }, 200
@@ -193,6 +195,13 @@ class Profile(Resource):
             return {"error":"Invalid token"}, 401
 
         user, _id = User.find_by_email(email)
+        img_names=[i for i in os.listdir('/home/jaskaran/Documents/MemoryLaneLocal/img')]
+        image_path=[]
+        for i in img_names:
+            if i[-14:]=='-predicted.jpg':
+                image_path.append('/home/jaskaran/Documents/MemoryLaneLocal/img'+i)
+
+
         if(user == None):
             return {"error":"User does not exists"}, 404
         else:
@@ -202,7 +211,8 @@ class Profile(Resource):
                 "name":user.name,
                 "age":user.age,
                 "country":user.country,
-                "PhoneNo":user.PhoneNo
+                "PhoneNo":user.PhoneNo,
+                "image_path":image_path
             }, 200
 
 class UserLogout(Resource):
