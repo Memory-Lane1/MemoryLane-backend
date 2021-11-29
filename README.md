@@ -30,4 +30,4 @@ We have built and evolved our GAN to produce convincing results on astronomical 
 [https://esahubble.org/images/](https://esahubble.org/images/)
 
 ## Research Paper
-[paper](https://arxiv.org/pdf/1609.04802.pdf)
+[https://arxiv.org/pdf/1609.04802.pdf](https://arxiv.org/pdf/1609.04802.pdf)
