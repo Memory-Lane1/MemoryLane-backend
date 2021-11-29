@@ -27,7 +27,7 @@ We have built and evolved our GAN to produce convincing results on astronomical 
 ![Sample Image Restoration](readme_resources/sample_restored_img.png)
 
 ## Dataset 
-[images](https://esahubble.org/images/)
+[https://esahubble.org/images/](https://esahubble.org/images/)
 
 ## Research Paper
 [paper](https://arxiv.org/pdf/1609.04802.pdf)
